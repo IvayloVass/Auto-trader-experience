@@ -1,0 +1,76 @@
+package bg.softuni.autoTraderExperience.services;
+
+import bg.softuni.autoTraderExperience.exceptions.UserAlreadyExistException;
+import bg.softuni.autoTraderExperience.models.binding.UserRegisterBindingModel;
+import bg.softuni.autoTraderExperience.models.entities.Role;
+import bg.softuni.autoTraderExperience.models.entities.RoleEnum;
+import bg.softuni.autoTraderExperience.models.entities.User;
+import bg.softuni.autoTraderExperience.repositoris.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository userRepository, UserDetailsService userDetailsService,
+                       ModelMapper modelMapper,
+                       PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
+        this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public void register(UserRegisterBindingModel userRegisterBindingModel) {
+
+        Optional<User> optUser = userRepository.findByEmail(userRegisterBindingModel.getEmail());
+        if (optUser.isPresent()) {
+            throw new UserAlreadyExistException("Submit another email!");
+        }
+
+        User user = modelMapper.map(userRegisterBindingModel, User.class);
+        user.setPassword(passwordEncoder.encode(userRegisterBindingModel.getPassword()));
+        user.setCreated(LocalDate.now());
+        user.setActive(true);
+        Role regular = new Role();
+        regular.setName(RoleEnum.USER);
+        Role admin = new Role();
+        admin.setName(RoleEnum.ADMIN);
+        user.setRoles(List.of(regular, admin));
+        userRepository.save(user);
+        login(user);
+
+    }
+
+    private void login(User newUser) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
+                userDetails.getAuthorities());
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
+
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+}

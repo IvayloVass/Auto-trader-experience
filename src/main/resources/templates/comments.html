@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/havbar::navbar"></div>
+<div class="container table-responsive" th:action="@{/comment/all}" th:method="get">
+    <table class="table table-success table-striped" th:each="c:${comments}" th:object="${c}">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Name</th>
+            <th scope="col">Picture url</th>
+            <th scope="col">City</th>
+            <th scope="col">Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row"></th>
+            <td th:text="*{title}">Title</td>
+            <td th:text="*{description}">Description</td>
+            <td th:text="*{traderName}">Trader name</td>
+            <td th:href="*{getPictureUrl()}">no picture attached</td>
+            <td th:text="*{city}">City</td>
+            <td th:text="*{address}">Address</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <footer th:replace="fragments/footer::footer"></footer>
+</div>
+</body>
+</html>
