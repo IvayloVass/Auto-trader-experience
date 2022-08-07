@@ -22,7 +22,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @Column(nullable = false)
     private List<Role> roles;
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Comments</title>
@@ -30,11 +31,17 @@
         <tr>
             <th scope="row"></th>
             <td th:text="*{title}">Title</td>
-            <td th:text="*{description}">Description</td>
+            <td>
+                <div th:text="*{description}">Description</div>
+            </td>
             <td th:text="*{traderName}">Trader name</td>
-            <td th:href="*{getPictureUrl()}">no picture attached</td>
+            <td><img th:src="*{getPictureUrl()}" alt="no picture attached"></td>
             <td th:text="*{city}">City</td>
             <td th:text="*{address}">Address</td>
+            <td
+                    sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/comment/delete}" target="_blank"></a>Delete
+            </td>
         </tr>
         </tbody>
     </table>

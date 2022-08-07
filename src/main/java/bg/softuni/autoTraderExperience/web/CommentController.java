@@ -2,7 +2,6 @@ package bg.softuni.autoTraderExperience.web;
 
 
 import bg.softuni.autoTraderExperience.models.binding.CommentBindingModel;
-import bg.softuni.autoTraderExperience.models.entities.Comment;
 import bg.softuni.autoTraderExperience.models.views.CommentViewModel;
 import bg.softuni.autoTraderExperience.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class CommentController {
         }
 
         commentService.createComment(commentBindingModel, principal);
-        return "redirect:/";
+        return "redirect:/comment/all";
     }
 
     @GetMapping("/all")

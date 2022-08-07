@@ -5,6 +5,7 @@ import bg.softuni.autoTraderExperience.models.binding.UserRegisterBindingModel;
 import bg.softuni.autoTraderExperience.models.entities.Role;
 import bg.softuni.autoTraderExperience.models.entities.RoleEnum;
 import bg.softuni.autoTraderExperience.models.entities.User;
+import bg.softuni.autoTraderExperience.repositoris.RoleRepository;
 import bg.softuni.autoTraderExperience.repositoris.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,17 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserDetailsService userDetailsService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserDetailsService userDetailsService,
-                       ModelMapper modelMapper,
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       UserDetailsService userDetailsService, ModelMapper modelMapper,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.userDetailsService = userDetailsService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
@@ -49,11 +52,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRegisterBindingModel.getPassword()));
         user.setCreated(LocalDate.now());
         user.setActive(true);
-        Role regular = new Role();
-        regular.setName(RoleEnum.USER);
-        Role admin = new Role();
-        admin.setName(RoleEnum.ADMIN);
-        user.setRoles(List.of(regular, admin));
+
+        Role admin = roleRepository.findByName(RoleEnum.ADMIN);
+        Role regular = roleRepository.findByName(RoleEnum.USER);
+
+        if (userRepository.count() == 0) {
+            user.setRoles(List.of(regular, admin));
+        } else {
+            user.setRoles(List.of(regular));
+        }
         userRepository.save(user);
         login(user);
 
