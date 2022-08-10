@@ -1,35 +1,24 @@
-package bg.softuni.autoTraderExperience.models.binding;
+package bg.softuni.autoTraderExperience.models.dtos;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+public class CommentDeletionDto {
 
-public class CommentBindingModel {
-
-    @NotBlank
-    @Size(min = 3)
+    private Long id;
     private String title;
-
-    @NotBlank
-    @Size(min = 3)
     private String description;
-
     private String pictureUrl;
-
-    @NotBlank
-    @Size(min = 3)
     private String traderName;
-
-    @NotBlank
-    @Size(min = 3)
     private String city;
-
-    @NotBlank
-    @Size(min = 3)
     private String address;
 
-    private String gpxCoordinates;
+    public CommentDeletionDto() {
+    }
 
-    public CommentBindingModel() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -78,13 +67,5 @@ public class CommentBindingModel {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getGpxCoordinates() {
-        return gpxCoordinates;
-    }
-
-    public void setGpxCoordinates(String gpxCoordinates) {
-        this.gpxCoordinates = gpxCoordinates;
     }
 }

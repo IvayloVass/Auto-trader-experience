@@ -1,5 +1,5 @@
 INSERT INTO comments(comment_created, description, picture_url, title, auto_trader_id, user_id)
-VALUES ('2022-08-06', 'very fair offer', null, 'Supreme experience', 1, 1),
+    VALUES ('2022-08-06', 'very fair offer', null, 'Supreme experience', 1, 1),
        ('2022-08-06', 'He lied about this car',
         'https://i.pinimg.com/originals/26/f6/c8/26f6c82178cdaacf100fb20358124318.jpg', 'Unfair trader', 2, 1),
        ('2022-08-06', 'This is cute dealer offer',

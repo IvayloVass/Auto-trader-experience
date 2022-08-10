@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/havbar::navbar"></div>
+
+<div class="container">
+    <h2 class="text-center text-white">Search for comments</h2>
+    <form
+            th:method="get"
+            th:action="@{/comment/search}"
+            th:object="${commentSearchModel}"
+            class="form-inline"
+            style="justify-content: center; margin-top: 50px;">
+        <div style="position: relative">
+            <input
+                    th:field="*{traderName}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Trader name"
+                    aria-label="Search"
+                    id="traderName"/>
+            <input
+                    th:field="*{title}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Title"
+                    aria-label="Search"
+                    id="title"/>
+            <input
+                    th:field="*{city}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="City"
+                    aria-label="Search"
+                    id="city"/>
+            <small
+                    id="searchCommentHelpInline"
+                    class="bg-danger text-light rounded invalid-feedback"
+                    style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;">
+                Please enter valid search criteria.
+            </small>
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <div class="container table-responsive">
+        <table class="table table-success table-striped" th:each="c:${comments}" th:object="${c}">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Name</th>
+                <th scope="col">Picture</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row"></th>
+                <td th:text="*{title}">Title</td>
+                <td>
+                    <div th:text="*{description}">Description</div>
+                </td>
+                <td th:text="*{traderName}">Trader name</td>
+                <td><img id="picture" th:src="*{getPictureUrl()}" alt="no picture attached"></td>
+                <td th:text="*{city}">City</td>
+                <td th:text="*{address}">Address</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 th:if="${comments != null && comments.size == 0}" class="text-center text-light">
+        There are no comments with that criteria yet!</h3>
+    <div>
+        <div>
+            <footer th:replace="fragments/footer::footer"></footer>
+        </div>
+</body>
+</html>

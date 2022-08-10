@@ -42,6 +42,7 @@ public class ApplicationSecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/users/register", "/users/login", "/comment/all").permitAll()
+                .antMatchers(("/comment/search")).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

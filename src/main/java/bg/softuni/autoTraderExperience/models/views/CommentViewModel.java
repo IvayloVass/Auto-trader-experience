@@ -2,6 +2,7 @@ package bg.softuni.autoTraderExperience.models.views;
 
 public class CommentViewModel {
 
+    private Long id;
     private String title;
     private String description;
     private String pictureUrl;
@@ -10,6 +11,14 @@ public class CommentViewModel {
     private String address;
 
     public CommentViewModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

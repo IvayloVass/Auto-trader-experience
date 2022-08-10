@@ -1,7 +1,7 @@
 package bg.softuni.autoTraderExperience.web;
 
-
 import bg.softuni.autoTraderExperience.models.binding.CommentBindingModel;
+import bg.softuni.autoTraderExperience.models.views.CommentSearchModel;
 import bg.softuni.autoTraderExperience.models.views.CommentViewModel;
 import bg.softuni.autoTraderExperience.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +63,26 @@ public class CommentController {
         model.addAttribute("comments", comments);
         return "comments";
     }
+
+    @GetMapping("/search")
+    public String searchComment(@Valid CommentSearchModel commentSearchModel,
+                                BindingResult bindingResult,
+                                Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("commentSearchModel", commentSearchModel);
+            model.addAttribute("org.springframework.validation.BindingResult.commentSearchModel", bindingResult);
+            return "comment-search";
+        }
+
+        if (!model.containsAttribute("commentSearchModel")) {
+            model.addAttribute("commentSearchModel", commentSearchModel);
+        }
+
+        if (!commentSearchModel.isEmpty()) {
+            model.addAttribute("comments", commentService.searchComment(commentSearchModel));
+        }
+        return "comment-search";
+    }
+
 }

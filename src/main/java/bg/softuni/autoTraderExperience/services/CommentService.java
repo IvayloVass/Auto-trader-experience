@@ -1,12 +1,15 @@
 package bg.softuni.autoTraderExperience.services;
 
 import bg.softuni.autoTraderExperience.models.binding.CommentBindingModel;
+import bg.softuni.autoTraderExperience.models.dtos.CommentDeletionDto;
 import bg.softuni.autoTraderExperience.models.entities.AutoTrader;
 import bg.softuni.autoTraderExperience.models.entities.Comment;
 import bg.softuni.autoTraderExperience.models.entities.Location;
 import bg.softuni.autoTraderExperience.models.entities.User;
+import bg.softuni.autoTraderExperience.models.views.CommentSearchModel;
 import bg.softuni.autoTraderExperience.models.views.CommentViewModel;
 import bg.softuni.autoTraderExperience.repositoris.CommentRepository;
+import bg.softuni.autoTraderExperience.repositoris.CommentSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -68,4 +71,27 @@ public class CommentService {
         return cvm;
     }
 
+    public CommentDeletionDto deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id).get();
+        CommentDeletionDto commentDeletionDto = modelMapper.map(comment, CommentDeletionDto.class);
+        commentDeletionDto.setCity(comment.getAutoTrader().getLocation().getCity());
+        commentDeletionDto.setAddress(comment.getAutoTrader().getLocation().getAddress());
+        commentRepository.delete(comment);
+        return commentDeletionDto;
+    }
+
+    public List<CommentSearchModel> searchComment(CommentSearchModel commentSearchModel) {
+        return commentRepository.findAll(new CommentSpecification(commentSearchModel))
+                .stream()
+                .map(this::map).toList();
+
+    }
+
+    private CommentSearchModel map(Comment comment) {
+        return modelMapper.map(comment, CommentSearchModel.class)
+                .setTraderName(comment.getAutoTrader().getTraderName())
+                .setCity(comment.getAutoTrader().getLocation().getCity())
+                .setAddress(comment.getAutoTrader().getLocation().getAddress());
+
+    }
 }
