@@ -43,15 +43,23 @@
         </p>
 
         <div class="row">
-            <div class="col col-md-4">
+            <div class="form-group col-md-6 mb-3">
                 <div class="d-flex justify-content-center mt-4">
                     <input type="submit" class="btn btn-primary btn-block" value="Login"/>
                 </div>
             </div>
+            <div class="form-group col-md-6 mb-3">
+                <div class="d-flex justify-content-center mt-4">
+                    <button id="facebook-button" class="btn btn-primary btn-block" type="button"
+                            th:href="@{/oauth2/authorization/facebook}">
+                        Login via facebook
+                    </button>
+                </div>
+            </div>
         </div>
-    </form>
+
 </div>
-</form>
+
 <div>
     <footer th:replace="fragments/footer::footer"></footer>
 </div>

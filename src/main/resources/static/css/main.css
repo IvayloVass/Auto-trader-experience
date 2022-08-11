@@ -71,6 +71,9 @@ form.main-form {
 .logged-user {
     color: white;
 }
+#facebook-button{
+    margin-left: auto;
+}
 
 footer {
     margin-bottom: auto;

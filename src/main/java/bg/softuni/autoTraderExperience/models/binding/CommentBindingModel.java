@@ -27,7 +27,6 @@ public class CommentBindingModel {
     @Size(min = 3)
     private String address;
 
-    private String gpxCoordinates;
 
     public CommentBindingModel() {
     }
@@ -80,11 +79,4 @@ public class CommentBindingModel {
         this.address = address;
     }
 
-    public String getGpxCoordinates() {
-        return gpxCoordinates;
-    }
-
-    public void setGpxCoordinates(String gpxCoordinates) {
-        this.gpxCoordinates = gpxCoordinates;
-    }
 }

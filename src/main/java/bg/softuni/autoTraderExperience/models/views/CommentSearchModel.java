@@ -12,6 +12,17 @@ public class CommentSearchModel {
     public CommentSearchModel() {
     }
 
+    public CommentSearchModel(String title, String description,
+                              String pictureUrl, String traderName,
+                              String city, String address) {
+        this.title = title;
+        this.description = description;
+        this.pictureUrl = pictureUrl;
+        this.traderName = traderName;
+        this.city = city;
+        this.address = address;
+    }
+
     public String getTraderName() {
         return traderName;
     }

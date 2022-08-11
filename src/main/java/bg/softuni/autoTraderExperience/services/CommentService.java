@@ -2,6 +2,7 @@ package bg.softuni.autoTraderExperience.services;
 
 import bg.softuni.autoTraderExperience.models.binding.CommentBindingModel;
 import bg.softuni.autoTraderExperience.models.dtos.CommentDeletionDto;
+import bg.softuni.autoTraderExperience.models.dtos.CommentDto;
 import bg.softuni.autoTraderExperience.models.entities.AutoTrader;
 import bg.softuni.autoTraderExperience.models.entities.Comment;
 import bg.softuni.autoTraderExperience.models.entities.Location;
@@ -92,6 +93,14 @@ public class CommentService {
                 .setTraderName(comment.getAutoTrader().getTraderName())
                 .setCity(comment.getAutoTrader().getLocation().getCity())
                 .setAddress(comment.getAutoTrader().getLocation().getAddress());
+
+    }
+
+    public List<CommentDto> getAllComments() {
+        return commentRepository.findAll()
+                .stream()
+                .map(c -> modelMapper.map(c, CommentDto.class))
+                .toList();
 
     }
 }
