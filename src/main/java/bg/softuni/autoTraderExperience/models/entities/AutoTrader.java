@@ -12,7 +12,7 @@ public class AutoTrader extends BaseEntity {
     @Column()
     private int rating;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     private Location location;
 
     public AutoTrader() {

@@ -41,10 +41,10 @@
             <td th:text="*{city}">City</td>
             <td th:text="*{address}">Address</td>
             <td sec:authorize="hasRole('ADMIN')">
-                <form th:action="@{api/{id}/delete(id=*{id})}"
+                <form th:action="@{/comment/{id}/delete(id=*{id})}"
                       th:method="post">
                     <div class="d-flex justify-content-center mt-4">
-                        <button id="deleteBook" type="submit" class="btn btn-primary btn-block">Delete</button>
+                        <button id="deleteBook" type="submit" value="submit" class="btn btn-primary btn-block">Delete</button>
                     </div>
                 </form>
             </td>
@@ -52,6 +52,6 @@
         </tbody>
     </table>
 </div>
-<script src="../static/js/app.js"></script>
+<!--<script src="../static/js/app.js"></script>-->
 </body>
 </html>

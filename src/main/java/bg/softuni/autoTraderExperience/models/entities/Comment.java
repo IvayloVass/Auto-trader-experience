@@ -20,7 +20,7 @@ public class Comment extends BaseEntity {
     @Column
     private String pictureUrl;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private AutoTrader autoTrader;
 
     @ManyToOne
