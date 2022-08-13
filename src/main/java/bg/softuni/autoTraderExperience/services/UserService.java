@@ -62,12 +62,12 @@ public class UserService {
             user.setRoles(List.of(regular));
         }
         userRepository.save(user);
-        login(user);
+        login(user.getEmail());
 
     }
 
-    private void login(User newUser) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getEmail());
+    public void login(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
                 userDetails.getAuthorities());
 
@@ -75,6 +75,16 @@ public class UserService {
                 .getContext()
                 .setAuthentication(authentication);
 
+    }
+
+    public void createUserIfNotExist(String email) {
+        if (userRepository.findByEmail(email).isEmpty()) {
+
+            User fbUser = new User("unknown", "unknown", email, "");
+            fbUser.setRoles(List.of());
+            fbUser.setCreated(LocalDate.now());
+            userRepository.save(fbUser);
+        }
     }
 
     public Optional<User> findUserByEmail(String email) {

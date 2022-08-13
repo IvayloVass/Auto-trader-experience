@@ -17,6 +17,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: ${APP_ID}
+            client-secret: ${APP_SECRET}
+
   sql:
     init:
       mode: never

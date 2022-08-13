@@ -2,9 +2,9 @@ package bg.softuni.autoTraderExperience.config;
 
 
 import bg.softuni.autoTraderExperience.repositoris.UserRepository;
+import bg.softuni.autoTraderExperience.services.OAuthSuccessHandler;
 import bg.softuni.autoTraderExperience.services.UserDetailsServiceImpl;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class ApplicationSecurityConfiguration {
 
-    private final UserRepository userRepository;
-
-    @Autowired
-    public ApplicationSecurityConfiguration(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
 
     @Bean
     public ModelMapper modelMapper() {
@@ -37,7 +30,8 @@ public class ApplicationSecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilerChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilerChain(HttpSecurity http,
+                                                  OAuthSuccessHandler oAuthSuccessHandler) throws Exception {
         http
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
@@ -56,7 +50,11 @@ public class ApplicationSecurityConfiguration {
                 .logoutUrl("/users/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                .and()
+                .oauth2Login()
+                .loginPage("/users/login")
+                .successHandler(oAuthSuccessHandler);
 
         return http.build();
 
