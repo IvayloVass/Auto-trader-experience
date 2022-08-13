@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Error page</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<p>Ooops...&#128527; There is no such page available!
-    <br>
-    Keep calm, you can continue browsing &#128521;
-</p>
+<div th:replace="fragments/havbar::navbar"></div>
+
+<div class="container-fluid text-center">
+    <h4>Ooops...&#128527; Something went wrong!
+        <br>
+        Keep calm, you can continue browsing &#128521;
+    </h4>
+</div>
+
+<div>
+    <footer th:replace="fragments/footer::footer"></footer>
+</div>
 
 </body>
 </html>
